@@ -35,18 +35,17 @@ var stateKey = 'spotify_auth_state';
 
 var app = express();
 
-// Instantiate a storage client
-const storage = new Storage({
-  projectId: "TSOx2AIC",
-  keyFilename: 'key.json'});
-
 // A bucket is a container for objects (files).
 const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
-
+var project_id = process.env.CLIENT_ID; // The gcloud project id
 var client_id = process.env.CLIENT_ID; // Your client id
 var client_secret = process.env.CLIENT_SECRET; // Your secret
 var redirect_uri = process.env.REDIRECT_URI; // Your redirect uri
 
+// Instantiate a storage client
+const storage = new Storage({
+  projectId: project_id,
+  keyFilename: 'key.json'});
 
 app.use(express.static(__dirname + '/public'))
    .use(cors())
