@@ -1,0 +1,27 @@
+{
+  "name": "spotify-user-data",
+  "version": "1.0.0",
+  "description": "Get users data from the Spotify API using OAuth",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TSOx2AIC/spotify-user-data.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TSOx2AIC/spotify-user-data/issues"
+  },
+  "homepage": "https://github.com/TSOx2AIC/spotify-user-data#readme",
+  "dependencies": {
+    "@google-cloud/storage": "^6.2.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "request": "^2.88.2"
+  }
+}
