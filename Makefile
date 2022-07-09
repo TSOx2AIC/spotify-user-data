@@ -1,6 +1,7 @@
 DOCKER_REGISTRY=europe-west1-docker.pkg.dev/tsox2aic/tsox2aic
 IMAGE_NAME=spotify-user-data
 SERVICE_NAME=spotify-user-data
+REGION=europe-west1
 
 .PHONY: build
 ## build: builds the docker image
@@ -22,7 +23,7 @@ push:
 .PHONY: deploy
 ## deploy: deploys the latest docker image to cloud run
 deploy:
-		gcloud run deploy ${SERVICE_NAME} --image ${DOCKER_REGISTRY}/${IMAGE_NAME}
+		gcloud run deploy ${SERVICE_NAME} --image ${DOCKER_REGISTRY}/${IMAGE_NAME} --region ${REGION}
 
 .PHONY: help
 ## help: prints this help message
