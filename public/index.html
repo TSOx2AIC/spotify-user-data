@@ -17,7 +17,27 @@
     <div class="container">
       <div id="login">
         <h1>The Sound of The Sound of AI Community</h1>
+        <p>As our contribution to the hackathon we want to show what kind of music the community listen to.<br>
+          We hope to find some interesting insights through some explorative data analysis such as:</p>
+        <ul>
+          <li>What songs, artists, and genres are the most popular in the community?</li>
+          <li>What are the Music information retrieval (MIR) properties of the communities top 50 songs?</li>
+          <li>How do the community cluster based on these properties?</li>
+          <li>Are there some fun community statistics based on the data?</li>
+        </ul>
+        <p>We hope you will participate by sharing your top 50 songs with us:
         <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+
+        <h2>What data do we access?</h2>
+        <p>
+          We only request the "user-top-read" scope from the Spotify API, so that we can access this endpoint:
+          <a href="https://developer.spotify.com/documentation/web-api/reference/#/operations/get-users-top-artists-and-tracks" target="_blank">Get User's Top Items</a> 
+        </p>
+        
+        <p>
+          The entire codebase for the project can be found here:
+          <a href="https://github.com/TSOx2AIC/spotify-user-data" target="_blank">github.com/TSOx2AIC/spotify-user-data</a>
+        </p>
       </div>
     </div>
 
@@ -73,13 +93,11 @@
                   userProfilePlaceholder.innerHTML = userProfileTemplate(response);
 
                   $('#login').hide();
-                  $('#loggedin').show();
                 }
             });
           } else {
               // render initial screen
               $('#login').show();
-              $('#loggedin').hide();
           };
         }
       })();
