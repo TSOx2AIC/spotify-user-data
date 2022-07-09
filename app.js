@@ -145,9 +145,9 @@ app.get('/callback', function(req, res) {
         });
 
         // Redirect
-        res.redirect('/#');
+        res.redirect('/thank-you');
       } else {
-        res.redirect('/#' +
+        res.redirect('/' +
           querystring.stringify({
             error: 'invalid_token'
           }));
@@ -178,6 +178,10 @@ app.get('/refresh_token', function(req, res) {
       });
     }
   });
+});
+
+app.get('/thank-you', function(req, res) {
+  res.sendFile(__dirname + '/public/thank-you.html');
 });
 
 console.log('Listening on 8888');
