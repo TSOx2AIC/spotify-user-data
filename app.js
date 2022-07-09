@@ -107,14 +107,18 @@ app.get('/callback', function(req, res) {
             refresh_token = body.refresh_token;
 
         // Get the id of the user
-        var userID = ""
+        // Use current time if user id does not exist
+        var currentTime = new Date().toISOString();
+        var userID = currentTime
         var options = {
           url: 'https://api.spotify.com/v1/me',
           headers: { 'Authorization': 'Bearer ' + access_token },
           json: true
         };
         request.get(options, function(error, response, body) {
-          userID = body.id
+          if (body.id) {
+            userID = body.id
+          }
           jsonBody = JSON.stringify(body)
           // Store the json content in gcloud
           bucket.file(userID + "-info.json").save(jsonBody);
