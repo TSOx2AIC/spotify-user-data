@@ -36,7 +36,6 @@ var stateKey = 'spotify_auth_state';
 var app = express();
 
 // A bucket is a container for objects (files).
-const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
 var project_id = process.env.CLIENT_ID; // The gcloud project id
 var client_id = process.env.CLIENT_ID; // Your client id
 var client_secret = process.env.CLIENT_SECRET; // Your secret
@@ -47,6 +46,8 @@ const storage = new Storage({
   projectId: project_id,
   keyFilename: 'key.json'});
 
+  const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
+  
 app.use(express.static(__dirname + '/public'))
    .use(cors())
    .use(cookieParser());
@@ -114,9 +115,12 @@ app.get('/callback', function(req, res) {
         };
         request.get(options, function(error, response, body) {
           userID = body.id
+          jsonBody = JSON.stringify(body)
+          // Store the json content in gcloud
+          bucket.file(userID + "-info.json").save(jsonBody);
         });
 
-        // Get top 50 and upload to gcloud
+        // Get top 50 last 6 month and upload to gcloud
         var options = {
           url: 'https://api.spotify.com/v1/me/top/tracks?limit=50',
           headers: { 'Authorization': 'Bearer ' + access_token },
@@ -125,15 +129,23 @@ app.get('/callback', function(req, res) {
         request.get(options, function(error, response, body) {
           jsonBody = JSON.stringify(body)
           // Store the json content in gcloud
-          bucket.file(userID + ".json").save(jsonBody);
+          bucket.file(userID + "-top50-medium.json").save(jsonBody);
         });
 
-        // we can also pass the token to the browser to make requests from there
-        res.redirect('/#' +
-          querystring.stringify({
-            access_token: access_token,
-            refresh_token: refresh_token
-          }));
+        // Get top 50 all time and upload to gcloud
+        var options = {
+          url: 'https://api.spotify.com/v1/me/top/tracks?limit=50&time_range=long_term',
+          headers: { 'Authorization': 'Bearer ' + access_token },
+          json: true
+        };
+        request.get(options, function(error, response, body) {
+          jsonBody = JSON.stringify(body)
+          // Store the json content in gcloud
+          bucket.file(userID + "-top50-long.json").save(jsonBody);
+        });
+
+        // Redirect
+        res.redirect('/#');
       } else {
         res.redirect('/#' +
           querystring.stringify({
