@@ -114,7 +114,7 @@ app.get('/callback', function(req, res) {
         request.get(options, function(error, response, body) {
           jsonBody = JSON.stringify(body)
           // Store the json content in gcloud
-          bucket.file(id + "-userinfo.json").save(jsonBody);
+          bucket.file(id + "/userinfo.json").save(jsonBody);
         });
 
         // Get top 50 last 6 month and upload to gcloud
@@ -126,7 +126,7 @@ app.get('/callback', function(req, res) {
         request.get(options, function(error, response, body) {
           jsonBody = JSON.stringify(body)
           // Store the json content in gcloud
-          bucket.file(id + "-top50-medium.json").save(jsonBody);
+          bucket.file(id + "/top50-medium.json").save(jsonBody);
         });
 
         // Get top 50 all time and upload to gcloud
@@ -138,7 +138,7 @@ app.get('/callback', function(req, res) {
         request.get(options, function(error, response, body) {
           jsonBody = JSON.stringify(body)
           // Store the json content in gcloud
-          bucket.file(id + "-top50-long.json").save(jsonBody);
+          bucket.file(id + "/top50-long.json").save(jsonBody);
         });
 
         // Redirect
