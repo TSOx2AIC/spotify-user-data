@@ -98,30 +98,23 @@ app.get('/callback', function(req, res) {
       json: true
     };
 
-
-    
     request.post(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
-
+        
         var access_token = body.access_token,
             refresh_token = body.refresh_token;
 
-        // Get the id of the user
-        // Use current time if user id does not exist
-        var currentTime = new Date().toISOString();
-        var userID = currentTime
+        // Use current time as file identifier
+        var id = new Date().toISOString();
         var options = {
           url: 'https://api.spotify.com/v1/me',
           headers: { 'Authorization': 'Bearer ' + access_token },
           json: true
         };
         request.get(options, function(error, response, body) {
-          if (body.id) {
-            userID = body.id
-          }
           jsonBody = JSON.stringify(body)
           // Store the json content in gcloud
-          bucket.file(userID + "-info.json").save(jsonBody);
+          bucket.file(id + "-userinfo.json").save(jsonBody);
         });
 
         // Get top 50 last 6 month and upload to gcloud
@@ -133,7 +126,7 @@ app.get('/callback', function(req, res) {
         request.get(options, function(error, response, body) {
           jsonBody = JSON.stringify(body)
           // Store the json content in gcloud
-          bucket.file(userID + "-top50-medium.json").save(jsonBody);
+          bucket.file(id + "-top50-medium.json").save(jsonBody);
         });
 
         // Get top 50 all time and upload to gcloud
@@ -145,7 +138,7 @@ app.get('/callback', function(req, res) {
         request.get(options, function(error, response, body) {
           jsonBody = JSON.stringify(body)
           // Store the json content in gcloud
-          bucket.file(userID + "-top50-long.json").save(jsonBody);
+          bucket.file(id + "-top50-long.json").save(jsonBody);
         });
 
         // Redirect
